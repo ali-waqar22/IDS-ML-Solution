@@ -52,4 +52,4 @@ jupyter notebook CLO4_IDS_Workflow.ipynb
 Ali Waqar
 GitHub: [ali-waqar22](https://github.com/ali-waqar22)
 Course: Information Security
-Aligned CLO: 4
+
