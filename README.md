@@ -1,10 +1,10 @@
-# CLO4-IDS-ML-Solution: AI-Powered Intrusion Detection
+# A1-IS-IDS-ML-Solution: AI-Powered Intrusion Detection
 
 ## Project Title
 AI-Powered Intrusion Detection Solution with Real-time Threat Detection
 
 ## Objective
-This project fulfills Assignment 1 for Information Security (CLO 4). The objective is to design, develop, and evaluate a proof-of-concept Machine Learning model that automatically classifies network traffic as normal or malicious. This acts as an intelligent augmentation to traditional NIDS (Network Intrusion Detection Systems).
+This project fulfills Assignment 1 for Information Security. The objective is to design, develop, and evaluate a proof-of-concept Machine Learning model that automatically classifies network traffic as normal or malicious. This acts as an intelligent augmentation to traditional NIDS (Network Intrusion Detection Systems).
 
 ## Scenario
 As a security analyst at "SecureNet Corp", this solution provides a proactive line of defense against modern network attacks such as DDoS, Brute Force, Web Attacks, and Infiltrations.
