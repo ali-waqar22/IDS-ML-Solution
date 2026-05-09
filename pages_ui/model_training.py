@@ -43,41 +43,44 @@ def render():
     st.markdown("<br>", unsafe_allow_html=True)
     
     # ── 2. Algorithm Configuration ──
-    st.markdown("<div class='css-1r6slb0'>", unsafe_allow_html=True)
     st.write("### Algorithm Configuration")
-    
-    config_col1, config_col2, config_col3 = st.columns(3)
     
     params = {}
     selected = st.session_state.selected_model
     
-    with config_col1:
-        st.write("**k-NN Settings**" if selected == 'k-NN' else "k-NN (Disabled)")
-        k = st.slider("k (Neighbors)", 1, 20, 5, disabled=(selected != 'k-NN'))
-        metric = st.radio("Metric", ['Euclidean', 'Manhattan', 'Cosine'], disabled=(selected != 'k-NN'))
-        if selected == 'k-NN':
-            params = {'k': k, 'metric': metric}
-            
-    with config_col2:
-        st.write("**Tree Settings**" if selected in ['Decision Tree', 'Random Forest'] else "DT/RF (Disabled)")
-        max_depth = st.slider("Max Depth", 1, 50, 10, disabled=(selected not in ['Decision Tree', 'Random Forest']))
-        criterion = st.radio("Criterion", ['Gini', 'Entropy'], disabled=(selected not in ['Decision Tree', 'Random Forest']))
+    if selected == 'k-NN':
+        st.write(f"**{selected} Settings**")
+        col1, col2 = st.columns(2)
+        with col1:
+            k = st.slider("k (Neighbors)", 1, 20, 5)
+        with col2:
+            metric = st.radio("Metric", ['Euclidean', 'Manhattan', 'Cosine'])
+        params = {'k': k, 'metric': metric}
         
-        n_trees = None
+    elif selected in ['Decision Tree', 'Random Forest']:
+        st.write(f"**{selected} Settings**")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            max_depth = st.slider("Max Depth", 1, 50, 10)
+        with col2:
+            criterion = st.radio("Criterion", ['Gini', 'Entropy'])
+            
         if selected == 'Random Forest':
-            n_trees = st.slider("n_trees", 10, 200, 100)
+            with col3:
+                n_trees = st.slider("n_estimators (Trees)", 10, 200, 100)
             params = {'max_depth': max_depth, 'criterion': criterion, 'n_estimators': n_trees}
-        elif selected == 'Decision Tree':
+        else:
             params = {'max_depth': max_depth, 'criterion': criterion}
             
-    with config_col3:
-        st.write("**Naive Bayes Settings**" if selected == 'Naive Bayes' else "NB (Disabled)")
-        nb_type = st.radio("Type", ['Gaussian', 'Multinomial'], disabled=(selected != 'Naive Bayes'))
-        var_smooth = st.text_input("Var Smoothing", "1e-9", disabled=(selected != 'Naive Bayes'))
-        if selected == 'Naive Bayes':
-            params = {'var_smoothing': var_smooth, 'type': nb_type}
-            
-    st.markdown("</div>", unsafe_allow_html=True)
+    elif selected == 'Naive Bayes':
+        st.write(f"**{selected} Settings**")
+        col1, col2 = st.columns(2)
+        with col1:
+            nb_type = st.radio("Type", ['Gaussian', 'Multinomial'])
+        with col2:
+            var_smooth = st.text_input("Var Smoothing", "1e-9")
+        params = {'var_smoothing': var_smooth, 'type': nb_type}
+
     
     # ── 3. Training Settings & Execution ──
     st.markdown("<div class='css-1r6slb0'>", unsafe_allow_html=True)
