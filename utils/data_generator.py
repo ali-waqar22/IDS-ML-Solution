@@ -239,7 +239,8 @@ def _generate_traffic(label, n, seed):
     df['Label'] = label
     
     # Add small noise to make data more realistic
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    exclude_noise = ['Dst_Port', 'Protocol', 'Fwd_PSH_Flags', 'Fwd_URG_Flags', 'FIN_Flag_Cnt', 'SYN_Flag_Cnt', 'RST_Flag_Cnt', 'ACK_Flag_Cnt']
+    numeric_cols = [c for c in df.select_dtypes(include=[np.number]).columns if c not in exclude_noise]
     for col in numeric_cols:
         noise = np.random.normal(0, df[col].std() * 0.02, len(df))
         df[col] = np.abs(df[col] + noise)

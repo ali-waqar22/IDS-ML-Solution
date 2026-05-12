@@ -10,11 +10,37 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS to match the UI screenshots
+# Theme Configuration
+if 'theme' not in st.session_state:
+    st.session_state.theme = 'Dark (Neon)'
+
+if st.session_state.theme == 'Dark (Neon)':
+    bg_color = "#050505"
+    text_color = "#e0e0e0"
+    menu_bg = "#0a0a0a"
+    panel_bg = "#0a0a0a"
+    border_col = "#1a1a1a"
+    input_border = "#39ff14"
+else:
+    bg_color = "#ffffff"
+    text_color = "#000000"
+    menu_bg = "#f0f2f6"
+    panel_bg = "#f8f9fa"
+    border_col = "#e6e6e6"
+    input_border = "#cccccc"
+
+# Custom CSS
 st.markdown("""
 <style>
-    /* Neon Green & Black Cyber Theme - Layout Fixed */
-    
+    :root {
+        --bg-color: """ + bg_color + """;
+        --text-color: """ + text_color + """;
+        --menu-bg: """ + menu_bg + """;
+        --panel-bg: """ + panel_bg + """;
+        --border-col: """ + border_col + """;
+        --input-border: """ + input_border + """;
+    }
+
     /* Animations */
     .stApp {
         animation: fadeSlideIn 0.5s ease-out forwards;
@@ -25,9 +51,9 @@ st.markdown("""
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Force App & Header to Black */
+    /* Force App & Header */
     [data-testid="stAppViewContainer"], .stApp {
-        background-color: #050505 !important;
+        background-color: var(--bg-color) !important;
     }
     
     header[data-testid="stHeader"] {
@@ -36,42 +62,49 @@ st.markdown("""
     
     /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #0a0a0a !important;
-        border-right: 1px solid #1a1a1a !important;
+        background-color: var(--menu-bg) !important;
+        border-right: 1px solid var(--border-col) !important;
     }
     
     /* Typography Overrides */
-    h1, h2, h3, h4, h5, h6, p, span, label {
-        color: #e0e0e0 !important;
+    h1, h2, h3, h4, h5, h6, p, span, label, div[data-testid="stMarkdownContainer"] {
+        color: var(--text-color) !important;
+    }
+    
+    /* Fix Streamlit Hamburger Menu and Popovers */
+    div[role="menu"], div[data-testid="stPopoverBody"], div[data-baseweb="popover"] > div, ul[data-testid="stSelectboxVirtualDropdown"] {
+        background-color: var(--menu-bg) !important;
+    }
+    
+    div[role="menuitem"] span {
+        color: var(--text-color) !important;
+    }
+    div[role="menuitem"]:hover {
+        background-color: rgba(57, 255, 20, 0.1) !important;
     }
     
     /* Input & Selectbox Dropdown Fixes */
     [data-testid="stSelectbox"] > div > div > div {
-        background-color: #050505 !important;
-        border: 1px solid #39ff14 !important;
-        color: #39ff14 !important;
-    }
-    
-    div[data-baseweb="popover"] ul, div[data-baseweb="select"] {
-        background-color: #050505 !important;
-        border: 1px solid #39ff14 !important;
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--input-border) !important;
+        color: var(--text-color) !important;
     }
     
     li[role="option"] {
-        color: #39ff14 !important;
-        background-color: #050505 !important;
+        color: var(--text-color) !important;
+        background-color: var(--menu-bg) !important;
     }
     
     li[role="option"]:hover, li[role="option"][aria-selected="true"] {
         background-color: rgba(57, 255, 20, 0.3) !important;
-        color: #ffffff !important;
+        color: var(--text-color) !important;
     }
     
     /* Number Inputs */
     [data-testid="stNumberInput"] > div > div > input {
-        background-color: #050505 !important;
-        color: #39ff14 !important;
-        border: 1px solid #39ff14 !important;
+        background-color: var(--bg-color) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--input-border) !important;
     }
     
     .main-title {
@@ -101,8 +134,8 @@ st.markdown("""
     
     /* Add panels to the actual layout columns instead */
     [data-testid="column"] {
-        background-color: #0a0a0a !important;
-        border: 1px solid #1f1f1f !important;
+        background-color: var(--panel-bg) !important;
+        border: 1px solid var(--border-col) !important;
         border-radius: 4px !important;
         padding: 20px !important;
         transition: all 0.2s ease !important;
@@ -115,9 +148,9 @@ st.markdown("""
     
     /* Buttons - Neon Hacker Style */
     .stButton>button {
-        background-color: #050505 !important;
-        color: #39ff14 !important;
-        border: 1px solid #39ff14 !important;
+        background-color: var(--bg-color) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--input-border) !important;
         border-radius: 2px !important;
         font-weight: 600 !important;
         letter-spacing: 1px !important;
@@ -131,6 +164,7 @@ st.markdown("""
         background-color: rgba(57, 255, 20, 0.1) !important;
         box-shadow: 0 0 15px rgba(57, 255, 20, 0.6) !important;
         transform: translateY(-2px) !important;
+        border-color: #39ff14 !important;
     }
     
     .stButton>button:active {
@@ -143,39 +177,39 @@ st.markdown("""
     [data-testid="stFileUploader"] > div,
     [data-testid="stFileUploader"] section,
     [data-testid="stFileUploadDropzone"] {
-        background-color: #050505 !important;
+        background-color: var(--bg-color) !important;
     }
     
     [data-testid="stFileUploadDropzone"] {
-        border: 1px dashed #39ff14 !important;
+        border: 1px dashed var(--input-border) !important;
         border-radius: 4px !important;
         padding: 16px !important;
     }
     
     [data-testid="stFileUploadDropzone"] * {
-        color: #39ff14 !important;
-        background-color: #050505 !important;
+        color: var(--text-color) !important;
+        background-color: var(--bg-color) !important;
     }
     
     [data-testid="stFileUploadDropzone"] button {
-        background-color: #0a0a0a !important;
-        border: 1px solid #39ff14 !important;
-        color: #39ff14 !important;
+        background-color: var(--menu-bg) !important;
+        border: 1px solid var(--input-border) !important;
+        color: var(--text-color) !important;
         border-radius: 4px !important;
         padding: 4px 12px !important;
     }
     
     [data-testid="stFileUploadDropzone"]:hover {
-        background-color: #0a0a0a !important;
+        background-color: var(--menu-bg) !important;
         box-shadow: 0 0 15px rgba(57, 255, 20, 0.3) !important;
     }
 
-    /* Slider Fix (Make it neon green instead of blue) */
+    /* Slider Fix */
     .stSlider > div > div > div > div {
         background-color: #39ff14 !important; 
     }
     .stSlider > div > div > div > div[role="slider"] {
-        background-color: #050505 !important;
+        background-color: var(--bg-color) !important;
         border: 2px solid #39ff14 !important;
         box-shadow: 0 0 5px #39ff14 !important;
     }
@@ -199,12 +233,19 @@ with st.sidebar:
     st.markdown('<div class="main-title">MACHINE LEARNING DASHBOARD</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-title">v2.0 - Streamlit</div>', unsafe_allow_html=True)
     
+    # Theme Toggle on Top
+    new_theme = st.radio("Theme", ["Dark (Neon)", "Light (Default)"], index=0 if st.session_state.theme == "Dark (Neon)" else 1, horizontal=True)
+    if new_theme != st.session_state.theme:
+        st.session_state.theme = new_theme
+        st.rerun()
+        
     st.write("") # Spacer
     
     # Navigation items using buttons styled to look like links
     pages = {
         'Dashboard': '🏠',
         'Data Explorer': '📊',
+        'Live Data': '🌐',
         'Model Training': '⚙️',
         'Visualizations': '📈',
         'Predictions': '🎯',
@@ -241,6 +282,9 @@ if st.session_state.page == 'Dashboard':
     ui.render()
 elif st.session_state.page == 'Data Explorer':
     import pages_ui.data_explorer as ui
+    ui.render()
+elif st.session_state.page == 'Live Data':
+    import pages_ui.live_data as ui
     ui.render()
 elif st.session_state.page == 'Model Training':
     import pages_ui.model_training as ui

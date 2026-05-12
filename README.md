@@ -9,12 +9,19 @@ This project fulfills Assignment 1 for Information Security. The objective is to
 ## Scenario
 As a security analyst at "SecureNet Corp", this solution provides a proactive line of defense against modern network attacks such as DDoS, Brute Force, Web Attacks, and Infiltrations.
 
+## Key Features
+- **Dynamic Theme Toggling:** Switch seamlessly between a Hacker "Neon Green & Dark" aesthetic and a clean Light Mode.
+- **Live Traffic Capture:** Simulate capturing real-time network packets from any target IP/URL, instantly extracting CICIDS2017 flow features for analysis.
+- **Custom Model Training:** Dynamically configure and train models (Random Forest, k-NN, etc.) on generated or uploaded data directly in the browser.
+- **Rich Visualizations:** Interactive Plotly graphs including Feature Importance, Protocol Distribution, Confusion Matrices, and ROC Curves.
+
 ## Dataset Setup Instructions
 This project uses a synthetic generator modeled after the real-world **CIC-IDS2017** dataset.
 1. Run the Streamlit Dashboard.
 2. Go to the **Dashboard** tab.
 3. Under "Quick Start Options", choose "Generate Synthetic CICIDS2017 Dataset" and click **Generate Dataset**.
-4. The dataset includes realistic flow features (Duration, Packet lengths, Flags) and 5 target classes: BENIGN, DDoS, Brute_Force, Web_Attack, and Infiltration.
+4. **NEW:** Go to the **Live Data** tab, enter a Target URL (like `http://scanme.nmap.org`), and click **Capture Data** to simulate real-time traffic gathering!
+5. The dataset includes realistic flow features (Duration, Packet lengths, Flags) and 5 target classes: BENIGN, DDoS, Brute_Force, Web_Attack, and Infiltration.
 
 *(Alternatively, you can upload a custom CSV dataset using the upload widget).*
 
